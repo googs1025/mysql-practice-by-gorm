@@ -1,0 +1,1 @@
+# mysql-practice-by-gorm
