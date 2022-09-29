@@ -4,6 +4,7 @@
 入参：（管道连接起点）
 
 ```bigquery
+// 输出的管道参数是自定义要传入的struct
 type InChan chan *BookList
 ```
 
@@ -15,7 +16,8 @@ type OutChan chan *Result
 
 结果集：需要接口管道output的结果
 
-```go
+```
+// 除了放error外，可以放入业务需要的字段参数
 type Result struct{
 	Page int	// 打印的csv以1000为一页
 	Err error

@@ -64,7 +64,11 @@ func ReadData() InChan  {
 	go func() {
 		defer close(in)
 		for {
-			booklist := &BookList{make([]*Book, 0), page}
+			booklist := &BookList{
+				Data: make([]*Book, 0),
+				Page: page,
+			}
+			// db操作
 			db := dbinit.DB.Raw(sql, pagesize, (page-1)*pagesize).Find(&booklist.Data)
 			if db.Error != nil || db.RowsAffected == 0 {
 				break
@@ -84,8 +88,11 @@ func WriteData(in InChan) OutChan  {
 	out:=make(OutChan)
 	go func() {
 		defer close(out)
-		for d:=range in {
-			out<-&Result{Page:d.Page,Err:SaveData(d)}
+		for d := range in {
+			out<-&Result{
+				Page: d.Page,
+				Err: SaveData(d),
+			}
 		}
 	}()
 	return out
@@ -106,25 +113,26 @@ func SaveData(data *BookList) error   {
 	export := [][]string{
 		header,
 	}
-	for _,d:=range data.Data{
-		cnt:=[]string{
+	for _, d := range data.Data {
+		cnt := []string {
 			strconv.Itoa(d.BookId),
 			d.BookName,
 		}
-		export=append(export,cnt)
+		export=append(export, cnt)
 	}
 	err=w.WriteAll(export)
-	if err!=nil{
+	if err != nil {
 		return err
 	}
 	w.Flush()
 	return nil
 }
 
+// 测试
 func Test()  {
-	out:=Pipe(ReadData,WriteData,WriteData,WriteData,WriteData,WriteData)
-	for o:=range out{
-		fmt.Printf("%d.csv文件执行完成,结果:%v\n",o.Page,o.Err)
+	outs := Pipe(ReadData, WriteData, WriteData, WriteData, WriteData, WriteData)
+	for out := range outs{
+		fmt.Printf("%d.csv文件执行完成,结果:%v\n",out.Page,out.Err)
 	}
 }
 
