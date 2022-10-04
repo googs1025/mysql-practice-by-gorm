@@ -28,8 +28,11 @@ OutputChan的函数操作用于写文件这类耗时操作，可以下发多个g
 
 
 ```
+## 一般模式
+![项目架构](https://github.com/googs1025/mysql-practice-by-gorm/blob/main/image/%E6%B5%81%E7%A8%8B%E5%9B%BE%20(1).jpg?raw=true)
+## pipeline管道模式
 
-
+![项目架构](https://github.com/googs1025/mysql-practice-by-gorm/blob/main/image/%E6%B5%81%E7%A8%8B%E5%9B%BE.jpg?raw=true)
 
 
 
