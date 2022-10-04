@@ -3,10 +3,9 @@ package pipeline
 
 import (
 	"fmt"
-	"mysql-practice-by-gorm/dbinit"
-
-	"time"
 	"log"
+	"mysql-practice-by-gorm/dbinit"
+	"time"
 )
 
 const sql="select * from books order by book_id limit ? offset ?"
@@ -55,9 +54,11 @@ func DoData(in InChan) OutChan{
 	return out
 }
 func PipeTest()  {
+	// 引入pipeline模型
 	p1:=NewPipe()
 	p1.SetCmd(GetPage)
 	p1.SetPipeCmd(GetData,3)
+	// 执行
 	out:=p1.Exec()
 
 

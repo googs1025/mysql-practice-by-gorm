@@ -1,7 +1,9 @@
 # mysql-practice-by-gorm
-## 利用gorm对mysql调用，的练习。
-## 并使用pipeline管道模式，进行并发写入操作提升性能。
+## 1. 利用gorm对mysql调用，的练习。
+## 2. 并使用pipeline管道模式，进行并发写入操作提升性能。
+通常InputChan的函数操作用于数据准备与一些预处理操作
 
+OutputChan的函数操作用于写文件这类耗时操作，可以下发多个goroutine进行，并且注意需要用并发原语waitgroup(也能用errgroup)+关闭chan一同操作。
 ###目录结构
 ```bigquery
 ├── README.md   
